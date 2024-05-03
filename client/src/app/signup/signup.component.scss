@@ -1,65 +1,96 @@
-.login-container {
+.overlay {
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #40404077;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
 }
 
-.login-form {
+.logo-container {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.logo {
+    max-width: 50vh;
+    padding: 20px;
+    position: absolute;
+}
+.logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.form {
     display: flex;
     flex-direction: column;
     width: 80%;
     max-width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     padding: 20px;
-    gap: 10px;
+    margin: 50px;
+
+    position: absolute;
+    bottom: 0;
+
+    background-color: rgba(140, 19, 149, 0.7);
+    background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
+    border: 5px solid rgb(68, 5, 73);
+    border-radius: 5px;
 }
 
-.login-form input {
+input {
     padding: 10px;
-    border: 1px solid #ddd;
+    margin: 5px;
+    border: 3px solid #871d70;
     border-radius: 5px;
     outline: none;
 }
+.invalid-input {
+    border-color: #ff0000 !important;
+    background-color: #ffdddd;
+}
+i {
+    font-weight: bold;
+}
 
-.login-form .buttons {
+.buttons {
     display: flex;
     justify-content: space-between;
     gap: 10px;
 }
 
-.login-form button {
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: cornflowerblue;
+button {
     width: 100%;
-    color: white;
     padding: 10px;
-}
+    margin: 5px;
+    
+    border: 2px solid rgb(195, 150, 206);
+    border-radius: 5px;
+    background-color: rgb(205, 101, 231);
+    background-image: linear-gradient(0, rgb(205, 101, 231) 0%, rgb(208, 125, 229) 60%, rgb(227, 183, 237) 100%);
 
-.login-form button:hover {
-    background-color: rgb(50, 74, 120);
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
 }
-
-.login-form button[type="button"] {
-    background-color: rgb(101, 231, 101);
-}
-
-.login-form button[type="button"]:hover {
-    background-color: rgb(57, 129, 57);
-}
-
-.login-form button[type="reset"] {
-    background-color: rgb(211, 76, 76);
-}
-
-.login-form button[type="reset"]:hover {
-    background-color: rgb(129, 45, 45);
-}
-
-.invalid-input {
-    border-color: #ff0000 !important;
-    border-width: 3px !important;
-    background-color: #ffdddd;
+button:hover {
+    background-color: rgb(204, 118, 225);
+    background-image: linear-gradient(0, rgb(204, 118, 225) 0%, rgb(226, 178, 238) 80%, rgb(233, 208, 239) 100%);
+    border-color: rgb(227, 200, 233);
 }

@@ -1,8 +1,10 @@
-<h2>WARNING</h2>
-<mat-dialog-content>
-    <p>Are you sure you want to delete this user?</p>
-</mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="true">Yes</button>
-    <button mat-button (click)="onNoClick()" cdkFocusInitial>No</button>
-</mat-dialog-actions>
+<div class="dialog-background">
+    <h2>FIGYELEM</h2>
+    <mat-dialog-content>
+        <p>Biztos vagy benne, hogy ki akarod törölni ezt a {{target}}?</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="true">Törlés</button>
+        <button mat-button (click)="onNoClick()" cdkFocusInitial>Mégse</button>
+    </mat-dialog-actions>
+</div>

@@ -1,13 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
 body {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-color: black;
 }
 
 app-root {
     width: 100%;
+    height: 100%;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+    background-image: url("images/background.jpg");
+    background-color: grey;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(0.5vh);
+}

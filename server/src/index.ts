@@ -1,4 +1,3 @@
-import { MainClass } from './main-class';
 import express from 'express';
 import { Request, Response } from 'express';
 import { configureRoutes } from './routes/routes';

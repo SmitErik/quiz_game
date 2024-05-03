@@ -1,21 +1,28 @@
-<div class="login-container">
-    <form class="login-form" (ngSubmit)="login()">
-        <input [(ngModel)]="email" name="email" type="email" placeholder="Email" required />
-        <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
-        <div class="buttons">
-            <button type="submit">Login</button>
+<div class="overlay" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="logo-container">
+    <div class="logo">
+        <img src="../../images/logo.png" alt="logo">
+    </div>
+</div>
+
+<div class="container">
+    <form class="form" (ngSubmit)="login()">
+        <input [(ngModel)]="email" name="email" type="email" placeholder="E-mail" required (blur)="checkEmail(false)" (input)="checkEmail(true)" />
+        <div *ngIf="!isEmailValid">
+            <i>Kérlek létező e-mail címet adj meg!</i>
         </div>
-        <div class="buttons">
-            <button type="button" (click)="navigate('/signup')">Sign Up</button>
-        </div>
-        <!-- <div class="buttons">
-            <button type="button" routerLink="/signup">Sign Up</button>
-        </div> -->
+        <input [(ngModel)]="password" name="password" type="password" placeholder="Jelszó" required />
         <div *ngIf="errorMessage">
-            <p>{{errorMessage}}</p>
+            <i>{{errorMessage}}</i>
         </div>
-        <div class="overlay" *ngIf="isLoading">
-            <mat-spinner></mat-spinner>
+        <div class="buttons">
+            <button type="submit">Bejelentkezés</button>
+        </div>
+        <div class="buttons">
+            <button type="button" (click)="navigate('/signup')">Regisztráció</button>
         </div>
     </form>
 </div>

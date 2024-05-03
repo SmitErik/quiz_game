@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/typescript/bin/tsc",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +18,7 @@
     "@types/express-session": "^1.18.0",
     "@types/passport": "^1.0.16",
     "@types/passport-local": "^1.0.38",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

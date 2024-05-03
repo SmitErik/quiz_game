@@ -1,28 +1,40 @@
-<div class="login-container">
-    <form class="login-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-        <input formControlName="email" type="email" placeholder="Email" required [ngClass]="{'invalid-input': signupForm.get('email')?.errors}" />
+<div class="overlay" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="logo-container">
+    <div class="logo">
+        <img src="../../images/logo.png" alt="logo">
+    </div>
+</div>
+
+<div class="container">
+    <form class="form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <input formControlName="email" type="email" placeholder="E-mail" required [ngClass]="{'invalid-input': signupForm.get('email')?.errors}" />
         <div *ngIf="signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)">
-            <p *ngIf="signupForm.get('email')?.errors && signupForm.get('email')?.errors!['required']">Email is required.</p>
-            <p *ngIf="signupForm.get('email')?.errors && signupForm.get('email')?.errors!['email']">Please enter a valid email.</p>
+            <i *ngIf="signupForm.get('email')?.errors && signupForm.get('email')?.errors!['required']">Az e-mail cím megadása kötelező!</i>
+            <i *ngIf="signupForm.get('email')?.errors && signupForm.get('email')?.errors!['pattern']">Kérlek létező e-mail címet adj meg!</i>
         </div>
-        <input formControlName="name" type="text" placeholder="Name" />
-        <input formControlName="address" type="text" placeholder="Address" />
-        <input formControlName="nickname" type="text" placeholder="Nickname" />
-        <input formControlName="password" type="password" placeholder="Password" required [ngClass]="{'invalid-input': signupForm.get('password')?.errors}" />
+        <input formControlName="nickname" type="text" placeholder="Játékosnév" required [ngClass]="{'invalid-input': signupForm.get('nickname')?.errors}" />
+        <div *ngIf="signupForm.get('nickname')?.invalid && (signupForm.get('nickname')?.dirty || signupForm.get('nickname')?.touched)">
+            <i *ngIf="signupForm.get('nickname')?.errors && signupForm.get('nickname')?.errors!['required']">A játékosnév megadása kötelező!</i>
+            <i *ngIf="signupForm.get('nickname')?.errors && signupForm.get('nickname')?.errors!['minlength']">A játékosnévnek legalább 3 karakterből kell állnia!</i>
+        </div>
+        <input formControlName="password" type="password" placeholder="Jelszó" required [ngClass]="{'invalid-input': signupForm.get('password')?.errors}" />
         <div *ngIf="signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)">
-            <p *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.errors!['required']">Password is required.</p>
-            <p *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.errors!['minlength']">Password must be at least 6 characters.</p>
+            <i *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.errors!['required']">A jelszó megadása kötelező!</i>
+            <i *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.errors!['minlength']">A jelszónak legalább 6 karakterből kell állnia!</i>
         </div>
-        <input formControlName="confirmPassword" type="password" placeholder="Confirm password" required [ngClass]="{'invalid-input': signupForm.get('confirmPassword')?.errors}" />
+        <input formControlName="confirmPassword" type="password" placeholder="Jelszó megerősítése" required [ngClass]="{'invalid-input': signupForm.get('confirmPassword')?.errors}" />
         <div *ngIf="signupForm.get('confirmPassword')?.invalid && (signupForm.get('confirmPassword')?.dirty || signupForm.get('confirmPassword')?.touched)">
-            <p *ngIf="signupForm.get('confirmPassword')?.errors && signupForm.get('confirmPassword')?.errors!['required']">Confirming password is required.</p>
-            <p *ngIf="signupForm.get('confirmPassword')?.errors && signupForm.get('confirmPassword')?.errors!['mustMatch']">Passwords must match.</p>
+            <i *ngIf="signupForm.get('confirmPassword')?.errors && signupForm.get('confirmPassword')?.errors!['required']">Szükséges a jelszó megerősítése!</i>
+            <i *ngIf="signupForm.get('confirmPassword')?.errors && signupForm.get('confirmPassword')?.errors!['mustMatch']">A jelszavaknak meg kell egyezniük!</i>
         </div>
         <div class="buttons">
-            <button type="submit">Sign Up</button>
+            <button type="submit">Regisztráció</button>
         </div>
         <div class="buttons">
-            <button type="reset" (click)="goBack()">Back</button>
+            <button type="reset" (click)="goBack()">Vissza</button>
         </div>
     </form>
 </div>

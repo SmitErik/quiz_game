@@ -1,8 +1,35 @@
-h2 {
+.dialog-background {
+    position: relative;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    
+    background-color: rgb(255, 255, 255);
+    background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
+    border: 5px solid rgb(68, 5, 73);
+    
     text-align: center;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+p {
+    color: black;
 }
 
 mat-dialog-actions {
     display: flex;
     justify-content: center;
+}
+
+button {
+    font-weight: bold;
+    background-color: rgba(206, 162, 209, 0.7);
+}
+button:focus {
+    filter: brightness(1.25);
+}
+button:hover {
+    filter: brightness(1.5);
 }

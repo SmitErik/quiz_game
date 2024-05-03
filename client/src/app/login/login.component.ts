@@ -18,31 +18,35 @@ export class LoginComponent {
   errorMessage: string = '';
   isLoading = false;
 
+  regex: RegExp = /^(?=.{0,254}$)[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  isEmailValid = true;
+
   constructor(private router: Router, private authService: AuthService) { }
+
+  checkEmail(focused: boolean) {
+    this.isEmailValid = focused ? true : this.regex.test(this.email);
+  }
 
   login() {
     this.isLoading = true;
-    setTimeout(() => {
-      if (this.email && this.password) {
-        this.errorMessage = '';
-        this.authService.login(this.email, this.password).subscribe({
-          next: (data) => {
-            if (data) {
-              // navigation
-              console.log(data);
-              this.isLoading = false;
-              this.router.navigateByUrl('/user-management');
-            }
-          }, error: (err) => {
-            console.log(err);
+    if (this.email && this.password) {
+      this.errorMessage = '';
+      this.authService.login(this.email, this.password).subscribe({
+        next: (data) => {
+          if (data) {
+            console.log(data);
             this.isLoading = false;
-          },
-        })
-      } else {
-        this.isLoading = false;
-        this.errorMessage = 'Form is empty.';
-      }
-    }, 1500);
+            this.router.navigateByUrl('/admin');
+          }
+        }, error: (err) => {
+          console.log(err);
+          this.isLoading = false;
+        },
+      })
+    } else {
+      this.isLoading = false;
+      this.errorMessage = 'Az űrlap nincs teljesen kitöltve!';
+    }
   }
 
   navigate(to: string) {
