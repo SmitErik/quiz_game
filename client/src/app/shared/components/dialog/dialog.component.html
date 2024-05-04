@@ -1,10 +1,10 @@
 <div class="dialog-background">
     <h2>FIGYELEM</h2>
     <mat-dialog-content>
-        <p>Biztos vagy benne, hogy ki akarod törölni ezt a {{target}}?</p>
+        <p>{{message}}</p>
     </mat-dialog-content>
     <mat-dialog-actions>
-        <button mat-button [mat-dialog-close]="true">Törlés</button>
-        <button mat-button (click)="onNoClick()" cdkFocusInitial>Mégse</button>
+        <button mat-button [mat-dialog-close]="true" *ngIf="choice">{{proceedChoice}}</button>
+        <button mat-button (click)="onNoClick()" cdkFocusInitial>{{cancelChoice}}</button>
     </mat-dialog-actions>
 </div>

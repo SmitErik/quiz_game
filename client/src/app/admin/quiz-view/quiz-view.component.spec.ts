@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BComponentComponent } from './b-component.component';
+import { QuizViewComponent } from './quiz-view.component';
 
-describe('BComponentComponent', () => {
-  let component: BComponentComponent;
-  let fixture: ComponentFixture<BComponentComponent>;
+describe('QuizViewComponent', () => {
+  let component: QuizViewComponent;
+  let fixture: ComponentFixture<QuizViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BComponentComponent]
+      imports: [QuizViewComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BComponentComponent);
+    fixture = TestBed.createComponent(QuizViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,3 +21,5 @@ describe('BComponentComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+export { QuizViewComponent };
+

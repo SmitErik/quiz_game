@@ -31,7 +31,9 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
         const email = req.body.email;
         const password = req.body.password;
         const nickname = req.body.nickname;
-        const user = new User({email: email, password: password, nickname: nickname});
+        const score = req.body.score;
+        const finishedQuizzes = req.body.finishedQuizzes;
+        const user = new User({email: email, password: password, nickname: nickname, score: score, finishedQuizzes: finishedQuizzes});
         user.save().then(data => {
             res.status(200).send(data);
         }).catch(error => {

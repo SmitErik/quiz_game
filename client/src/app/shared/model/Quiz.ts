@@ -5,4 +5,5 @@ export interface Quiz {
     answers2: string[];
     answers3: string[];
     answers4: string[];
+    correctAnswers: number[];
 }

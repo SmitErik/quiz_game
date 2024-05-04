@@ -12,6 +12,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Quiz } from '../shared/model/Quiz';
 import { QuizService } from '../shared/services/quiz.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-admin',
@@ -21,11 +22,13 @@ import { QuizService } from '../shared/services/quiz.service';
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
-  isLoading = false;
+  isLoading = true;
   usersTable = true;
+  isDialogOpen = false;
 
   users!: User[];
-  usersColumns = ['email', 'nickname', 'delete'];
+  usersColumns = ['email', 'nickname', 'score', 'finishedQuizzes', 'delete'];
+  dataSource = new MatTableDataSource<User>(this.users);
   
   quizzes!: Quiz[];
   quizzesColumns = ['title', 'questions', 'answers1', 'answers2', 'answers3', 'answers4', 'delete'];
@@ -40,56 +43,83 @@ export class AdminComponent {
   ) { }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.usersTable = this.router.url.endsWith('users');
     this.loadTable();
   }
 
   loadTable() {
+    this.isLoading = true;
+
     if (this.usersTable) {
       this.users = [
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
-        { email: "asd@asd", nickname: "asd", password: "asdasd" },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 0, finishedQuizzes: [] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 20, finishedQuizzes: ['', ''] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 20, finishedQuizzes: ['', ''] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 60, finishedQuizzes: ['', '', '', '', '', ''] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 10, finishedQuizzes: [''] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 10, finishedQuizzes: [''] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 50, finishedQuizzes: ['', '', '', '', ''] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 0, finishedQuizzes: [] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 50, finishedQuizzes: ['', '', '', '', ''] },
+        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 80, finishedQuizzes: ['', '', '', '', '', '', '', ''] }
       ];
 
       /*this.userService.getAll().subscribe({
         next: (data) => {
           this.users = data;
           console.log(this.users);
+          this.isLoading = false;
         }, error: (err) => {
           console.log(err);
+          this.isLoading = false;
         }
       });*/
+      
+      this.dataSource = new MatTableDataSource<User>(this.users);
+      this.dataSource.data = this.dataSource.data.sort((a, b) => {
+        if (a['score'] < b['score']) return 1;
+        if (a['score'] > b['score']) return -1;
+        return 0;
+      });
     }
     else {
       this.quizzes = [
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'] },
+        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
+        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
+        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
+        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
+        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
       ];
 
       /*this.quizService.getAll().subscribe({
         next: (data) => {
           this.quizzes = data;
           console.log(this.quizzes);
+          this.isLoading = false;
         }, error: (err) => {
           console.log(err);
+          this.isLoading = false;
         }
       });*/
+      
+      this.quizzes.push({
+        title: "",
+        questions: [],
+        answers1: [],
+        answers2: [],
+        answers3: [],
+        answers4: [],
+        correctAnswers: []
+      });
     }
+    this.isLoading = false;
   }
 
   switchTable(user: boolean) {
     this.usersTable = user;
+    this.router.navigateByUrl(`/admin/${user ? 'users' : 'quizzes'}`);
+
     this.loadTable();
   }
 
@@ -109,7 +139,12 @@ export class AdminComponent {
 
   deleteUser(id: string, n: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: { target: 'felhasználót' }
+      data: {
+        message: 'Biztos vagy benne, hogy ki akarod törölni ezt a felhasználót?',
+        choice: true,
+        cancelChoice: 'Mégse',
+        proceedChoice: 'Törlés'
+      }
     });
 
     dialogRef.afterClosed().subscribe({
@@ -137,8 +172,14 @@ export class AdminComponent {
   }
 
   deleteQuiz(id: string, n: number) {
+    this.isDialogOpen = true;
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: { target: 'kvízt' }
+      data: {
+        message: 'Biztos vagy benne, hogy ki akarod törölni ezt a kvízt?',
+        choice: true,
+        cancelChoice: 'Mégse',
+        proceedChoice: 'Törlés'
+      }
     });
 
     dialogRef.afterClosed().subscribe({
@@ -159,6 +200,7 @@ export class AdminComponent {
             }
           });
         }
+        this.isDialogOpen = false;
       }, error: (err) => {
         console.log(err);
       }
@@ -167,5 +209,23 @@ export class AdminComponent {
 
   openSnackBar(message: string, duration: number) {
     this.snackBar.open(message, undefined, { duration: duration });
+  }
+
+  openQuiz(quizId: number) {
+    if (!this.isDialogOpen) {
+      if (!this.isLastRow(quizId))
+        this.router.navigate(['/admin/quizzes', quizId]);
+      else {
+        this.addNewRow();
+      }
+    }
+  }
+  
+  isLastRow(index: number): boolean {
+    return index === this.quizzes.length - 1;
+  }
+
+  addNewRow() {
+    //TODO - új sor, loading, navigálás tovább, ha sikeres
   }
 }

@@ -1,0 +1,86 @@
+<div class="overlay" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="logo-container">
+    <div class="logo">
+        <img src="../../images/logo.png" alt="logo">
+    </div>
+</div>
+
+<div class="table">
+    <div class="buttons">
+        <button type="reset" (click)="goBack()"><mat-icon fontIcon="arrow_back"></mat-icon> Mégse</button>
+        <button type="submit" (click)="save()"><mat-icon fontIcon="save"></mat-icon> Mentés</button>
+    </div>
+
+    <div class="title">
+        <input matInput type="text" placeholder="Cím" required [ngClass]="{'invalid-input': quiz.title === ''}" [(ngModel)]="quiz.title">
+    </div>
+
+    <div class="container">
+        <table mat-table [dataSource]="quizToDisplay">
+            <ng-container matColumnDef="questions">
+                <th mat-header-cell *matHeaderCellDef>Kérdés</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <input matInput required [ngClass]="{'invalid-input': element.questions === ''}" [(ngModel)]="element.questions" *ngIf="!isLastRow(i)">
+                    <mat-icon fontIcon="add" *ngIf="isLastRow(i)"></mat-icon> <b *ngIf="isLastRow(i)"> Új kérdés létrehozása</b>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="answers1">
+                <th mat-header-cell *matHeaderCellDef>Válasz #1</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <span *ngIf="!isLastRow(i)">
+                        <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(1, i)" class="check" (click)="setCorrect(1, i)"></mat-icon>
+                        <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(1, i)" class="check"></mat-icon>
+                        <input matInput required [ngClass]="{'invalid-input': element.answers1 === '', 'correct-answer': isCorrect(1, i)}" [(ngModel)]="element.answers1">
+                    </span>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="answers2">
+                <th mat-header-cell *matHeaderCellDef>Válasz #2</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <span *ngIf="!isLastRow(i)">
+                        <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(2, i)" class="check" (click)="setCorrect(2, i)"></mat-icon>
+                        <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(2, i)" class="check"></mat-icon>
+                        <input matInput required [ngClass]="{'invalid-input': element.answers2 === '', 'correct-answer': isCorrect(2, i)}" [(ngModel)]="element.answers2">
+                    </span>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="answers3">
+                <th mat-header-cell *matHeaderCellDef>Válasz #3</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <span *ngIf="!isLastRow(i)">
+                        <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(3, i)" class="check" (click)="setCorrect(3, i)"></mat-icon>
+                        <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(3, i)" class="check"></mat-icon>
+                        <input matInput [ngClass]="{'correct-answer': isCorrect(3, i)}" [(ngModel)]="element.answers3">
+                    </span>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="answers4">
+                <th mat-header-cell *matHeaderCellDef>Válasz #4</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <span *ngIf="!isLastRow(i)">
+                        <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(4, i)" class="check" (click)="setCorrect(4, i)"></mat-icon>
+                        <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(4, i)" class="check"></mat-icon>
+                        <input matInput [ngClass]="{'correct-answer': isCorrect(4, i)}" [(ngModel)]="element.answers4">
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef>Törlés</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <mat-icon fontIcon="delete" (click)="deleteQuestion(i)" *ngIf="!isLastRow(i)"></mat-icon>
+                </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="quizzesColumns"></tr>
+            <tr mat-row *matRowDef="let row; let i = index; columns: quizzesColumns" (click)="addNewRow(i)"></tr>
+        </table>
+    </div>
+</div>
