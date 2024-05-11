@@ -52,68 +52,46 @@ export class AdminComponent {
     this.isLoading = true;
 
     if (this.usersTable) {
-      this.users = [
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 0, finishedQuizzes: [] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 20, finishedQuizzes: ['', ''] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 20, finishedQuizzes: ['', ''] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 60, finishedQuizzes: ['', '', '', '', '', ''] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 10, finishedQuizzes: [''] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 10, finishedQuizzes: [''] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 50, finishedQuizzes: ['', '', '', '', ''] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 0, finishedQuizzes: [] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 50, finishedQuizzes: ['', '', '', '', ''] },
-        { email: "asd@asd", nickname: "asd", password: "asdasd", score: 80, finishedQuizzes: ['', '', '', '', '', '', '', ''] }
-      ];
+      this.dataSource = new MatTableDataSource<User>(this.users);
 
-      /*this.userService.getAll().subscribe({
+      this.userService.getAll().subscribe({
         next: (data) => {
           this.users = data;
-          console.log(this.users);
+          this.dataSource.data = this.dataSource.data.sort(this.sortUserTable);
           this.isLoading = false;
         }, error: (err) => {
           console.log(err);
           this.isLoading = false;
         }
-      });*/
-      
-      this.dataSource = new MatTableDataSource<User>(this.users);
-      this.dataSource.data = this.dataSource.data.sort((a, b) => {
-        if (a['score'] < b['score']) return 1;
-        if (a['score'] > b['score']) return -1;
-        return 0;
       });
     }
     else {
-      this.quizzes = [
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-        { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      ];
-
-      /*this.quizService.getAll().subscribe({
+      this.quizService.getAll().subscribe({
         next: (data) => {
           this.quizzes = data;
-          console.log(this.quizzes);
+          this.quizzes.push({
+            title: "",
+            questions: [],
+            answers1: [],
+            answers2: [],
+            answers3: [],
+            answers4: [],
+            correctAnswers: []
+          });
           this.isLoading = false;
         }, error: (err) => {
           console.log(err);
           this.isLoading = false;
         }
-      });*/
-      
-      this.quizzes.push({
-        title: "",
-        questions: [],
-        answers1: [],
-        answers2: [],
-        answers3: [],
-        answers4: [],
-        correctAnswers: []
       });
     }
     this.isLoading = false;
+  }
+
+  sortUserTable(a: User, b: User) {
+    if (a['score'] < b['score']) return 1;
+    if (a['score'] > b['score']) return -1;
+    return 0;
   }
 
   switchTable(user: boolean) {
@@ -154,10 +132,9 @@ export class AdminComponent {
           console.log(data);
           this.userService.delete(id).subscribe({
             next: (data) => {
-              console.log(data);
               this.users?.splice(n, 1);
               this.users = [...this.users];
-              this.openSnackBar('User deleted successfully.', 3000);
+              this.snackBar.open(`A ${(data as User).nickname} felhasználó sikeresen törölve lett.`, 'Rendben', { duration: 3000 });
               this.isLoading = false;
             }, error: (err) => {
               console.log(err);
@@ -186,13 +163,11 @@ export class AdminComponent {
       next: (data) => {
         if (data) {
           this.isLoading = true;
-          console.log(data);
           this.quizService.delete(id).subscribe({
             next: (data) => {
-              console.log(data);
               this.quizzes?.splice(n, 1);
               this.quizzes = [...this.quizzes];
-              this.openSnackBar('Quiz deleted successfully.', 3000);
+              this.snackBar.open(`A ${(data as Quiz).title} kvíz sikeresen törölve lett.`, 'Rendben', { duration: 3000 });
               this.isLoading = false;
             }, error: (err) => {
               console.log(err);
@@ -207,13 +182,9 @@ export class AdminComponent {
     })
   }
 
-  openSnackBar(message: string, duration: number) {
-    this.snackBar.open(message, undefined, { duration: duration });
-  }
-
-  openQuiz(quizId: number) {
+  openQuiz(quizId: string) {
     if (!this.isDialogOpen) {
-      if (!this.isLastRow(quizId))
+      if (quizId != undefined)
         this.router.navigate(['/admin/quizzes', quizId]);
       else {
         this.addNewRow();
@@ -225,7 +196,31 @@ export class AdminComponent {
     return index === this.quizzes.length - 1;
   }
 
+  notAdmin(element: any): boolean {
+    return element._id !== "000000000000000000000000";
+  }
+
   addNewRow() {
-    //TODO - új sor, loading, navigálás tovább, ha sikeres
+    this.isLoading = true;
+
+    const quiz = {
+      title: 'Új kvíz 1',
+      questions: ['Első kérdés?'],
+      answers1: ['Első válasz.'],
+      answers2: ['Második válasz.'],
+      answers3: [''],
+      answers4: [''],
+      correctAnswers: [1]
+    };
+
+    this.quizService.create(quiz).subscribe({
+      next: (data) => {
+        this.loadTable();
+        this.snackBar.open(`${(data as Quiz).title} sikeresen létre lett hozva.`, 'Rendben', { duration: 3000 });
+      }, error: (err) => {
+        this.isLoading = false;
+        console.log(err);
+      }
+    });
   }
 }

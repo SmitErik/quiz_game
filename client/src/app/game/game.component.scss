@@ -41,10 +41,13 @@
 .menu {
     display: flex;
     flex-direction: column;
-    width: 25%;
-    max-width: 250px;
+    width: 40%;
+    max-width: 400px;
     padding: 20px;
     gap: 10px;
+
+    text-align: center;
+    align-items: center;
 
     background-color: rgba(140, 19, 149, 0.7);
     background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
@@ -73,51 +76,85 @@ button:hover {
 
 b {
     font-size: 1.3em;
-    display: inline-block;
+}
+
+.quizzes-table {
+    font-size: 1.3em;
+    align-items: center;
+    text-align: center;
+    border-collapse: collapse;
+
+    margin-top: 1em;
     
     width: 100%;
+    max-width: 400px;
+    height: 3em;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.quizzes-table th {
+    border-bottom: 1px solid black;
+}
+.quizzes-table mat-icon {
+    height: 100%;
+    top: 0;
+    transform: scaleX(2);
+    font-weight: bold;
+    font-size: 2em;
+    position: relative;
+}
+.quizzes-table td {
+    width: 35%;
+}
+.quizzes-table td:first-child, .quizzes-table td:last-child {
+    width: 10%;
+}
+.quizzes-table td:first-child mat-icon {
+    left: -0.5em;
+}
+.quizzes-table td:last-child mat-icon {
+    right: 0.15em;
+}
+.quizzes-table mat-icon:hover {
+    cursor: pointer;
+    filter: invert(0.875);
+}
 
   
 .table {
-    width: 25%;
-    max-width: 250px;
+    width: 40%;
+    max-width: 400px;
 
     height: calc(7 * 3.715em);
     max-height: 50%;
     overflow-y: auto;
     overflow-x: hidden;
     
+    background-color: rgb(255, 255, 255);
+    background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
     border: 5px solid rgb(68, 5, 73);
     border-radius: 5px;
 }
 
-table {
+.users-table {
     background-color: rgb(255, 255, 255);
     background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
 }
 
-td {
+.users-table td:not(:first-of-type), .users-table th {
     text-align: center;
-    font-size: 1.5em;
-    
-    width: 25%;
+}
+.users-table td {
+    width: 40%;
     max-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-tr:hover {
+.users-table tr:hover {
     background-image: linear-gradient(0, rgb(228, 115, 236) 0%, rgb(189, 133, 193) 100%);
-}
-.quiz-row:hover {
-    color: white;
-    text-decoration: underline;
-    cursor: pointer;
 }
 
 ::-webkit-scrollbar {
@@ -131,8 +168,4 @@ tr:hover {
 }
 ::-webkit-scrollbar-thumb:hover {
     background: #b71895; 
-}
-
-.selected-quiz {
-    font-weight: bold;
 }

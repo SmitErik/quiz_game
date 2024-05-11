@@ -6,11 +6,7 @@ import { catchError, map, of } from 'rxjs';
 export const authGuard: CanActivateFn = (route, state) => {
   const r = inject(Router);
 
-  return true;
-
-  // TODO: ezeket vissza
-
-  /*return inject(AuthService).checkAuth().pipe(map(isAuthenticated => {
+  return inject(AuthService).checkAuth().pipe(map(isAuthenticated => {
     if (!isAuthenticated) {
       r.navigateByUrl('/login');
       return false;
@@ -21,5 +17,5 @@ export const authGuard: CanActivateFn = (route, state) => {
     console.log(error);
     r.navigateByUrl('/login');
     return of(false);
-  }));*/
+  }));
 };

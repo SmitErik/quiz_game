@@ -29,6 +29,8 @@ export class AuthService {
     body.set('email', user.email);
     body.set('nickname', user.nickname);
     body.set('password', user.password);
+    body.set('score', JSON.stringify(0));
+    body.set('finishedQuizzes', JSON.stringify([]));
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'

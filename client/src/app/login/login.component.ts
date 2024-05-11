@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent {
   regex: RegExp = /^(?=.{0,254}$)[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   isEmailValid = true;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
   checkEmail(focused: boolean) {
     this.isEmailValid = focused ? true : this.regex.test(this.email);
@@ -34,15 +35,26 @@ export class LoginComponent {
       this.authService.login(this.email, this.password).subscribe({
         next: (data) => {
           if (data) {
-            console.log(data);
-            this.isLoading = false;
-            this.router.navigateByUrl('/admin');
+            this.userService.get(data.toString()).subscribe({
+              next: (user) => {
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                this.isLoading = false;                
+              }, error: (err) => {
+                console.log(err);
+                this.isLoading = false;
+              }
+            });
+
+            if (data === '000000000000000000000000')
+              this.router.navigateByUrl('/admin');
+            else
+              this.router.navigateByUrl('/game');
           }
         }, error: (err) => {
           console.log(err);
           this.isLoading = false;
-        },
-      })
+        }
+      });
     } else {
       this.isLoading = false;
       this.errorMessage = 'Az űrlap nincs teljesen kitöltve!';

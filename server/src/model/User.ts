@@ -13,7 +13,7 @@ interface IUser extends Document {
 }
 
 const UserSchema: Schema<IUser> = new mongoose.Schema({
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     nickname: { type: String, required: true },
     password: { type: String, required: true },
     score: { type: Number, required: false },

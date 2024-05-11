@@ -1,0 +1,178 @@
+[
+    {
+        "title": "TypeScript",
+        "questions": [
+            "Mi a TypeScript?",
+            "Milyen kiegészítő funkciókat nyújt a TypeScript a sima JavaScript-hez képest?",
+            "Milyen fájlkiterjesztést használ a TypeScript forráskódja?",
+            "Melyik npm parancsot használjuk a TypeScript telepítéséhez a projektbe?",
+            "Melyik az egyik alapvető különbség a TypeScript és a JavaScript között?"
+        ],
+        "answers1": [
+            "Egy JavaScript keretrendszer",
+            "Típusellenőrzés és statikus típusdefiníció",
+            ".ts",
+            "npm install typescript --save-dev",
+            "TypeScript objektumorientált nyelv, míg a JavaScript procedurális"
+        ],
+        "answers2": [
+            "Egy nyelv, amely kiterjeszti a JavaScript-et",
+            "Vizuális tervezőeszközök",
+            ".js",
+            "npm add typescript",
+            "TypeScript csak a frontend fejlesztésére használható, míg a JavaScript mindenhol alkalmazható"
+        ],
+        "answers3": [
+            "Egy CSS pre-processzor",
+            "Adatbázisintegráció",
+            ".html",
+            "npm setup typescript",
+            "TypeScript csak Microsoft által támogatott, míg a JavaScript nyílt forráskódú"
+        ],
+        "answers4": [
+            "Egy adatbázis-kezelő rendszer",
+            "Képfeldolgozási funkciók",
+            ".css",
+            "npm link typescript",
+            "A TypeScript gyorsabb, mint a JavaScript"
+        ],
+        "correctAnswers": [2, 1, 1, 1, 1]
+    },
+    {
+        "title": "Angular",
+        "questions": [
+            "Mi az Angular?",
+            "Melyik programozási nyelvet használja az Angular a fejlesztéshez?",
+            "Melyik a megfelelő Angular parancs a projekt létrehozásához?",
+            "Melyik az Angular alapvető építőeleme?",
+            "Melyik a megfelelő Angular CLI parancs a komponens létrehozásához?"
+        ],
+        "answers1": [
+            "Egy programozási nyelv",
+            "TypeScript",
+            "ng new project-name",
+            "Component",
+            "ng add component component-name"
+        ],
+        "answers2": [
+            "Egy frontend keretrendszer",
+            "Java",
+            "create-angular-app project-name",
+            "Module",
+            "ng generate component component-name"
+        ],
+        "answers3": [
+            "Egy adatbáziskezelő rendszer",
+            "Python",
+            "angular create project-name",
+            "Directive",
+            "ng new component component-name"
+        ],
+        "answers4": [
+            "Egy backend szerveralkalmazás",
+            "C#",
+            "ng generate project project-name",
+            "Service",
+            "ng create component component-name"
+        ],
+        "correctAnswers": [2, 1, 1, 1, 2]
+    },
+    {
+        "title": "MongoDB",
+        "questions": [
+            "Mi a MongoDB?",
+            "Melyik kifejezés írja le leginkább a MongoDB adatmodelljét?",
+            "Melyik a megfelelő MongoDB parancs egy adatbázis létrehozásához a mongo shell-ben?",
+            "Melyik az egyik fő előnye a MongoDB-nek a relációs adatbázisokkal szemben?"
+        ],
+        "answers1": [
+            "Egy relációs adatbázisrendszer",
+            "Táblák és sorok",
+            "CREATE DATABASE dbname;",
+            "Relációs adatmodell használata"
+        ],
+        "answers2": [
+            "Egy dokumentum alapú (NoSQL) adatbázisrendszer",
+            "Dokumentumok és gyűjtemények",
+            "db.createDatabase('dbname');",
+            "Tranzakciókezelés támogatása"
+        ],
+        "answers3": [
+            "Egy JavaScript keretrendszer",
+            "Osztályok és objektumok",
+            "use dbname;",
+            "Rugalmas skálázhatóság és dinamikus séma"
+        ],
+        "answers4": [
+            "Egy frontend fejlesztői eszköz",
+            "Fájlok és mappák",
+            "use admin; db.createCollection('dbname');",
+            "SQL lekérdezések támogatása"
+        ],
+        "correctAnswers": [2, 2, 4, 3]
+    },
+    {
+        "title": "Webfejlesztés",
+        "questions": [
+            "Mit jelent a \"frontend\" a webfejlesztésben?",
+            "Melyik a legelterjedtebb CSS keretrendszer a frontend fejlesztéséhez?",
+            "Mit jelent a SPA rövidítés a frontend fejlesztésben?",
+            "Az Express.js egy frontend keretrendszer.",
+            "Melyik nyelvet használja a Node.js a backend fejlesztéséhez?",
+            "Melyik a legelterjedtebb adatbáziskezelő rendszer a Node.js környezetben?",
+            "Milyen típusú kéréseket kezel egy típusos backend?",
+            "Melyik technológia egyaránt alkalmazható frontend és backend fejlesztésére?",
+            "Melyik kifejezés jelenti azt, hogy egy fejlesztő mind a frontend, mind a backend területén jártas?",
+            "Melyik komponensből áll össze a MEAN Stack?"
+        ],
+        "answers1": [
+            "Az adatbázis-kezelő rendszer",
+            "Bootstrap",
+            "Server-Provided Assets",
+            "Igaz",
+            "Python",
+            "MySQL",
+            "CRUD (create, read, update, delete)",
+            "React",
+            "Doublestack",
+            "MongoDB, Express.js, Angular, Node.js"
+        ],
+        "answers2": [
+            "A felhasználói felület és az interakció fejlesztését",
+            "Materialize",
+            "Single Page Application",
+            "Hamis",
+            "JavaScript/TypeScript",
+            "PostgreSQL",
+            "GPU (get, post, update)",
+            "Angular",
+            "Fullstack",
+            "MySQL, Ember.js, Angular, Node.js"
+        ],
+        "answers3": [
+            "A szerver oldali kódok",
+            "Tailwind CSS",
+            "Static Page Access",
+            null,
+            "Ruby",
+            "DynomiteDB",
+            "ACPP (add, commit, push, pull)",
+            "Node.js",
+            "Superstack",
+            "MongoDB, Express.js, React.js, Node.js"
+        ],
+        "answers4": [
+            null,
+            null,
+            null,
+            null,
+            "C",
+            "MongoDB",
+            "HCJT (html, css, js, ts)",
+            "PHP",
+            "Prostack",
+            "MariaDB, Express.js, Angular, Node.js"
+        ],
+        "correctAnswers": [2, 3, 2, 2, 2, 4, 1, 3, 2, 1]
+    }
+]

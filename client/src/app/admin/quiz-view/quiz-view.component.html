@@ -23,7 +23,7 @@
             <ng-container matColumnDef="questions">
                 <th mat-header-cell *matHeaderCellDef>Kérdés</th>
                 <td mat-cell *matCellDef="let element; let i = index">
-                    <input matInput required [ngClass]="{'invalid-input': element.questions === ''}" [(ngModel)]="element.questions" *ngIf="!isLastRow(i)">
+                    <input matInput required [ngClass]="{'invalid-input': element.questions === ''}" [(ngModel)]="element.questions" *ngIf="!isLastRow(i)" (blur)="semiSave(i, 0)">
                     <mat-icon fontIcon="add" *ngIf="isLastRow(i)"></mat-icon> <b *ngIf="isLastRow(i)"> Új kérdés létrehozása</b>
                 </td>
             </ng-container>
@@ -34,7 +34,7 @@
                     <span *ngIf="!isLastRow(i)">
                         <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(1, i)" class="check" (click)="setCorrect(1, i)"></mat-icon>
                         <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(1, i)" class="check"></mat-icon>
-                        <input matInput required [ngClass]="{'invalid-input': element.answers1 === '', 'correct-answer': isCorrect(1, i)}" [(ngModel)]="element.answers1">
+                        <input matInput required [ngClass]="{'invalid-input': element.answers1 === '', 'correct-answer': isCorrect(1, i)}" [(ngModel)]="element.answers1" (blur)="semiSave(i, 1)">
                     </span>
                 </td>
             </ng-container>
@@ -45,7 +45,7 @@
                     <span *ngIf="!isLastRow(i)">
                         <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(2, i)" class="check" (click)="setCorrect(2, i)"></mat-icon>
                         <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(2, i)" class="check"></mat-icon>
-                        <input matInput required [ngClass]="{'invalid-input': element.answers2 === '', 'correct-answer': isCorrect(2, i)}" [(ngModel)]="element.answers2">
+                        <input matInput required [ngClass]="{'invalid-input': element.answers2 === '', 'correct-answer': isCorrect(2, i)}" [(ngModel)]="element.answers2" (blur)="semiSave(i, 2)">
                     </span>
                 </td>
             </ng-container>
@@ -56,7 +56,7 @@
                     <span *ngIf="!isLastRow(i)">
                         <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(3, i)" class="check" (click)="setCorrect(3, i)"></mat-icon>
                         <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(3, i)" class="check"></mat-icon>
-                        <input matInput [ngClass]="{'correct-answer': isCorrect(3, i)}" [(ngModel)]="element.answers3">
+                        <input matInput [ngClass]="{'correct-answer': isCorrect(3, i)}" [(ngModel)]="element.answers3" (blur)="semiSave(i, 3)">
                     </span>
                 </td>
             </ng-container>
@@ -67,7 +67,7 @@
                     <span *ngIf="!isLastRow(i)">
                         <mat-icon fontIcon="radio_button_unchecked" *ngIf="!isCorrect(4, i)" class="check" (click)="setCorrect(4, i)"></mat-icon>
                         <mat-icon fontIcon="check_circle_outline" *ngIf="isCorrect(4, i)" class="check"></mat-icon>
-                        <input matInput [ngClass]="{'correct-answer': isCorrect(4, i)}" [(ngModel)]="element.answers4">
+                        <input matInput [ngClass]="{'correct-answer': isCorrect(4, i)}" [(ngModel)]="element.answers4" (blur)="semiSave(i, 4)">
                     </span>
                 </td>
             </ng-container>

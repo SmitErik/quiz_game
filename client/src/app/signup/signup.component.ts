@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../shared/services/auth.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { DialogComponent } from '../shared/components/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-signup',
@@ -19,6 +21,7 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private location: Location,
+    private dialog: MatDialog,
     private authService: AuthService,
     private router: Router
   ) { }
@@ -54,15 +57,23 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     if (this.signupForm.valid) {
       this.isLoading = true;
-      console.log('Form data:', this.signupForm.value);
       this.authService.register(this.signupForm.value).subscribe({
-        next: (data) => {
+        next: (_) => {
           this.isLoading = false;
-          console.log(data);
           this.router.navigateByUrl('/login');
         }, error: (err) => {
           this.isLoading = false;
-          console.log(err);
+          if (err.status === 400) {
+            this.dialog.open(DialogComponent, {
+              data: {
+                message: 'Ilyen e-mail címmel regisztrált játékos már létezik!',
+                choice: false,
+                cancelChoice: 'Vissza'
+              }
+            });
+          } else {
+            console.log(err);
+          }
         }
       });
     } else {

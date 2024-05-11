@@ -1,5 +1,4 @@
 import express from 'express';
-import { Request, Response } from 'express';
 import { configureRoutes } from './routes/routes';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';

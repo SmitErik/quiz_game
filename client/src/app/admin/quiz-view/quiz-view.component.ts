@@ -8,32 +8,46 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
+import { QuizService } from '../../shared/services/quiz.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-quiz-view',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatProgressSpinnerModule, FormsModule],
+  imports: [CommonModule, MatTableModule, MatIconModule, MatProgressSpinnerModule, FormsModule, MatSnackBarModule],
   templateUrl: './quiz-view.component.html',
   styleUrl: './quiz-view.component.scss'
 })
 export class QuizViewComponent {
   isLoading = true;
   quizzesColumns = ['questions', 'answers1', 'answers2', 'answers3', 'answers4', 'delete'];
-  quiz!: Quiz;
+  quiz: Quiz = { title: "", questions: [], answers1: [], answers2: [], answers3: [], answers4: [], correctAnswers: [] };
   originalQuiz!: Quiz;
   quizToDisplay: any[] = [];
+  id?: string | null;
 
-  constructor(private route: ActivatedRoute, private router: Router, private location: Location, private dialog: MatDialog) { }
+  constructor (
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location,
+    private dialog: MatDialog,
+    private quizService: QuizService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.isLoading = true;
-
-    const id = this.route.snapshot.paramMap.get('quizId');
-    //TODO: get the quiz
-    this.originalQuiz = { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] };
-    this.quiz = JSON.parse(JSON.stringify(this.originalQuiz));
-
-    this.getDisplayQuiz();
+    this.id = this.route.snapshot.paramMap.get('quizId');
+    this.quizService.get(this.id!).subscribe({
+      next: (data) => {
+        this.originalQuiz = data;
+        this.quiz = JSON.parse(JSON.stringify(this.originalQuiz));
+        this.getDisplayQuiz();
+      }, error: (err) => {
+        console.log(err);
+        this.isLoading = false;
+      }
+    });
   }
 
   getDisplayQuiz() {
@@ -51,15 +65,35 @@ export class QuizViewComponent {
       });
 
     this.quizToDisplay.push({
-      questions: "",
-      answers1: "",
-      answers2: "",
-      answers3: "",
-      answers4: "",
+      questions: null,
+      answers1: null,
+      answers2: null,
+      answers3: null,
+      answers4: null,
       correctAnswer: 0
     });
 
     this.isLoading = false;
+  }
+
+  semiSave(index: number, n: number) {
+    switch (n) {
+      case 0:
+        this.quiz.questions[index] = this.quizToDisplay[index].questions;
+        break;
+      case 1:
+        this.quiz.answers1[index] = this.quizToDisplay[index].answers1;
+        break;
+      case 2:
+        this.quiz.answers2[index] = this.quizToDisplay[index].answers2;
+        break;
+      case 3:
+        this.quiz.answers3[index] = this.quizToDisplay[index].answers3;
+        break;
+      case 4:
+        this.quiz.answers4[index] = this.quizToDisplay[index].answers4;
+        break;
+    }
   }
 
   goBack() {
@@ -87,8 +121,6 @@ export class QuizViewComponent {
   }
 
   save() {
-    //TODO: el is menteni a változtatásokat xd
-    
     if (document.querySelector('.invalid-input') !== null) {
       this.dialog.open(DialogComponent, {
         data: {
@@ -99,7 +131,32 @@ export class QuizViewComponent {
       });
     }
     else {
-      this.router.navigateByUrl('/admin/quizzes');
+      if (this.quizCompare(this.quiz, this.originalQuiz)) {
+        this.router.navigateByUrl('/admin/quizzes');
+        return;
+      }
+
+      this.isLoading = true;
+      this.quizService.update(this.id!, this.quiz).subscribe({
+        next: (_) => {
+          this.isLoading = false;
+          this.snackBar.open(`A ${this.quiz.title} kvíz sikeresen frissült.`, 'Rendben', { duration: 3000 });
+          this.router.navigateByUrl('/admin/quizzes');
+        }, error: (err) => {
+          this.isLoading = false;
+          if (err.status === 400) {
+            this.dialog.open(DialogComponent, {
+              data: {
+                message: 'Ilyen című kvíz már létezik!',
+                choice: false,
+                cancelChoice: 'Vissza'
+              }
+            });
+          } else {
+            console.log(err);
+          }
+        }
+      });
     }
   }
   
@@ -112,7 +169,8 @@ export class QuizViewComponent {
   }
 
   setCorrect(n: number, i: number) {
-    this.quiz.correctAnswers[i] = n;
+    if (n < 3 || n === 3 && this.quiz.answers3[i] || n === 4 && this.quiz.answers4[i])
+      this.quiz.correctAnswers[i] = n;
   }
 
   addNewRow(index: number) {
@@ -167,11 +225,11 @@ export class QuizViewComponent {
         return false;
       if (quiz1.answers1[i] !== quiz2.answers1[i])
         return false;
-      if (quiz1.answers2[i] !== quiz2.answers3[i])
+      if (quiz1.answers2[i] !== quiz2.answers2[i])
         return false;
-      if (quiz1.answers2[i] !== quiz2.answers3[i])
+      if (quiz1.answers3[i] !== quiz2.answers3[i])
         return false;
-      if (quiz1.answers2[i] !== quiz2.answers3[i])
+      if (quiz1.answers4[i] !== quiz2.answers4[i])
         return false;
     }
     

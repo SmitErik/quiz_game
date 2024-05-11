@@ -4,51 +4,58 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { User } from '../shared/model/User';
 import { AuthService } from '../shared/services/auth.service';
 import { Router } from '@angular/router';
-import { Quiz } from '../shared/model/Quiz';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { QuizService } from '../shared/services/quiz.service';
+import { MatIconModule } from '@angular/material/icon';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule, MatTableModule],
+  imports: [CommonModule, MatProgressSpinnerModule, MatTableModule, MatIconModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
 export class GameComponent {
   isLoading = false;
   user!: User;
-  quizzes!: Quiz[];
-  selectedQuiz = "";
-  selectedQuizId = 0;
+  quizzes = [{_id: "", title: "", questionCount: 0}];
+  selectedQuiz = 0;
+  users!: [{nickname: string, score: number, quizzesCount: number}];
+  columns = ['nickname', 'score', 'quizzesCount']
+  dataSource = new MatTableDataSource<{nickname: string, score: number, quizzesCount: number}>(this.users);
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor (
+    private authService: AuthService,
+    private userService: UserService,
+    private quizService: QuizService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.isLoading = true;
 
-    //TODO: get the user
-    this.user = { email: "asd@asd", nickname: "asd", password: "asdasd", score: 0, finishedQuizzes: [] };
-
-    //TODO: get quiz names and/or id's
+    this.user = JSON.parse(localStorage.getItem('loggedInUser')!);
     
-    this.quizzes = [
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1zzzzzzzzzzzzzzzzz", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-      { title: "Kvíz1", questions: ['Egy?', 'Kettő?', 'Három?'], answers1: ['Igen', 'Nem', 'Talán'], answers2: ['Igen', 'Nem', 'Talán'], answers3: ['Igen', 'Nem', 'Talán'], answers4: ['Igen', 'Nem', 'Talán'], correctAnswers: [1, 2, 3] },
-    ];
-
-    this.selectedQuizId = 0;
-    this.selectedQuiz = this.quizzes[0].title;
-
-    this.isLoading = false;
+    this.quizService.getAllTitles().subscribe({
+      next: (data) => {
+        this.quizzes = data;
+        this.userService.getAllNames().subscribe({
+          next: (data) => {
+            this.dataSource = new MatTableDataSource<{nickname: string, score: number, quizzesCount: number}>(this.users);
+            this.users = data.filter(user => user.nickname !== 'admin') as [{ nickname: string; score: number; quizzesCount: number; }];
+            this.dataSource.data = this.dataSource.data.sort(this.sortUserTable);
+            this.isLoading = false;
+          }, error: (err) => {
+            console.log(err);
+            this.isLoading = false;
+          }
+        });
+      }, error: (err) => {
+        console.log(err);
+        this.isLoading = false;
+      }
+    });
   }
 
   startGame() {
@@ -58,8 +65,8 @@ export class GameComponent {
   logout() {
     this.isLoading = true;
     this.authService.logout().subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (_) => {
+        localStorage.removeItem('loggedInUser');
         this.router.navigateByUrl('/login');
         this.isLoading = false;
       }, error: (err) => {
@@ -70,7 +77,17 @@ export class GameComponent {
   }
 
   chooseQuiz(n: number) {
-    this.selectedQuizId = n;
-    this.selectedQuiz = this.quizzes[n].title;
+    this.selectedQuiz += n;
+
+    if (this.selectedQuiz < 0)
+      this.selectedQuiz = this.quizzes.length - 1;
+    else if (this.selectedQuiz === this.quizzes.length)
+      this.selectedQuiz = 0;
+  }
+  
+  sortUserTable(a: any, b: any) {
+    if (a['score'] < b['score']) return 1;
+    if (a['score'] > b['score']) return -1;
+    return 0;
   }
 }
