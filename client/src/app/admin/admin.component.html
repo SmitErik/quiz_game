@@ -32,12 +32,12 @@
 
             <ng-container matColumnDef="score">
                 <th mat-header-cell *matHeaderCellDef>Pontszám</th>
-                <td mat-cell *matCellDef="let element" class="center">{{element.score}}</td>
+                <td mat-cell *matCellDef="let element" class="center">{{sumScores(element.scores)}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="finishedQuizzes">
-                <th mat-header-cell *matHeaderCellDef>Teljesített kvízek</th>
-                <td mat-cell *matCellDef="let element" class="center">{{element.finishedQuizzes.length}}</td>
+            <ng-container matColumnDef="quizzesCount">
+                <th mat-header-cell *matHeaderCellDef>Játszott kvízek</th>
+                <td mat-cell *matCellDef="let element" class="center">{{element.playedQuizzes.length}}</td>
             </ng-container>
 
             <ng-container matColumnDef="delete">

@@ -1,0 +1,27 @@
+<div class="game-container">
+    <div class="game-header">
+        <div><span class="game-title">{{quiz.title}} | {{currentQuestion + 1}}/{{questionCount}}</span></div>
+    </div>
+    <div class="question-container">
+        <span class="question">{{currentQuestion + 1}}.) {{quiz.questions[currentQuestion]}}</span>
+    </div>
+    <div class="answers">
+        <div class="answer" (click)="selectAnswer(1)">
+            <span>{{answers[0]}}</span>
+            <div>A</div>
+        </div>
+        <div class="answer" (click)="selectAnswer(2)">
+            <span>{{answers[1]}}</span>
+            <div>B</div>
+        </div>
+        <div class="answer" (click)="selectAnswer(3)" *ngIf="quiz.answers3[currentQuestion]">
+            <span>{{answers[2]}}</span>
+            <div>C</div>
+        </div>
+        <div class="answer" (click)="selectAnswer(4)" *ngIf="quiz.answers4[currentQuestion]">
+            <span>{{answers[3]}}</span>
+            <div>D</div>
+        </div>
+    </div>
+</div>
+  

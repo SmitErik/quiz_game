@@ -53,6 +53,7 @@
     background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
     border: 5px solid rgb(68, 5, 73);
     border-radius: 5px;
+    box-shadow: -3px 10px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 button {
@@ -83,18 +84,16 @@ b {
     align-items: center;
     text-align: center;
     border-collapse: collapse;
-
-    margin-top: 1em;
     
     width: 100%;
     max-width: 400px;
-    height: 3em;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    height: 4em;
 }
 .quizzes-table th {
     border-bottom: 1px solid black;
+    height: 3em;
+    font-weight: normal;
+    font-size: 0.9em;
 }
 .quizzes-table mat-icon {
     height: 100%;
@@ -104,11 +103,15 @@ b {
     font-size: 2em;
     position: relative;
 }
-.quizzes-table td {
-    width: 35%;
+.quizzes-table td:nth-child(2) {
+    width: 30%;
 }
-.quizzes-table td:first-child, .quizzes-table td:last-child {
+.quizzes-table td {
     width: 10%;
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .quizzes-table td:first-child mat-icon {
     left: -0.5em;
@@ -116,7 +119,7 @@ b {
 .quizzes-table td:last-child mat-icon {
     right: 0.15em;
 }
-.quizzes-table mat-icon:hover {
+.quizzes-table mat-icon:not(.done):not(.not-done):hover {
     cursor: pointer;
     filter: invert(0.875);
 }
@@ -135,6 +138,7 @@ b {
     background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
     border: 5px solid rgb(68, 5, 73);
     border-radius: 5px;
+    box-shadow: 3px 10px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 .users-table {
@@ -142,7 +146,7 @@ b {
     background-image: linear-gradient(0, rgba(140, 19, 149, 0.7) 0%, rgba(189, 133, 193, 0.7) 100%);
 }
 
-.users-table td:not(:first-of-type), .users-table th {
+.users-table th:last-of-type {
     text-align: center;
 }
 .users-table td {

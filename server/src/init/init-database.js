@@ -19,6 +19,8 @@ async function initDatabase() {
 async function initAdmin() {
   const usersCollection = database.collection('users');
 
+  // await usersCollection.drop();
+
   let admin = await usersCollection.findOne({ email: 'quiz@admin.com' });
 
   if (admin) {
@@ -32,8 +34,8 @@ async function initAdmin() {
       email: 'quiz@admin.com',
       nickname: 'admin',
       password: 'admin123',
-      score: 0,
-      finishedQuizzes: []
+      scores: [],
+      playedQuizzes: []
   };
 
   await usersCollection.insertOne(admin);
@@ -81,5 +83,26 @@ async function initQuizzes() {
     console.log(`The quiz ${title} is created successfully.`);
   }
 }
+
+/*async function initDatabase() {
+  const client = new MongoClient('mongodb://localhost:6000');
+
+  try {
+    await client.connect();
+    database = client.db('my_db');
+    
+    const usersCollection = database.collection('users');
+
+
+    await usersCollection.updateOne({ nickname: '$mitE' }, { $set: { "scores" : [100] } });
+  
+    let user = await usersCollection.findOne({ nickname: '$mitE' });
+
+    console.log(user);
+
+  } finally {
+    await client.close();
+  }
+}*/
 
 initDatabase().catch(console.error);

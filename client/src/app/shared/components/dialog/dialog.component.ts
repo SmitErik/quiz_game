@@ -11,13 +11,19 @@ import { MatDialogContent, MatDialogActions, MatDialogClose, MatDialogRef, MAT_D
   styleUrl: './dialog.component.scss'
 })
 export class DialogComponent {
-  message = '';
+  title = '';
+  message: any;
   choice = false;
   cancelChoice = '';
   proceedChoice = '';
 
   constructor(private dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.message = data.message;
+    this.title = data.title;
+    if (data.message.includes('\n')) {
+      this.message = data.message.split('\n', 3);;
+    } else {
+      this.message = data.message;
+    }
     this.choice = data.choice;
     this.cancelChoice = data.cancelChoice;
     this.proceedChoice = data?.proceedChoice;
@@ -25,6 +31,10 @@ export class DialogComponent {
 
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  isArray() {
+    return typeof this.message !== 'string';
   }
 
 }

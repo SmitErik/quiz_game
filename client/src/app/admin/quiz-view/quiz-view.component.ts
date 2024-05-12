@@ -190,6 +190,7 @@ export class QuizViewComponent {
   deleteQuestion(n: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
+        title: 'FIGYELEM',
         message: 'Biztos vagy benne, hogy ki akarod törölni ezt a kérdést?',
         choice: true,
         cancelChoice: 'Mégse',

@@ -12,7 +12,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Quiz } from '../shared/model/Quiz';
 import { QuizService } from '../shared/services/quiz.service';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-admin',
@@ -27,8 +26,7 @@ export class AdminComponent {
   isDialogOpen = false;
 
   users!: User[];
-  usersColumns = ['email', 'nickname', 'score', 'finishedQuizzes', 'delete'];
-  dataSource = new MatTableDataSource<User>(this.users);
+  usersColumns = ['email', 'nickname', 'score', 'quizzesCount', 'delete'];
   
   quizzes!: Quiz[];
   quizzesColumns = ['title', 'questions', 'answers1', 'answers2', 'answers3', 'answers4', 'delete'];
@@ -52,12 +50,9 @@ export class AdminComponent {
     this.isLoading = true;
 
     if (this.usersTable) {
-      this.dataSource = new MatTableDataSource<User>(this.users);
-
       this.userService.getAll().subscribe({
         next: (data) => {
-          this.users = data;
-          this.dataSource.data = this.dataSource.data.sort(this.sortUserTable);
+          this.users = data.sort(this.sortUserTable);
           this.isLoading = false;
         }, error: (err) => {
           console.log(err);
@@ -89,9 +84,21 @@ export class AdminComponent {
   }
 
   sortUserTable(a: User, b: User) {
-    if (a['score'] < b['score']) return 1;
-    if (a['score'] > b['score']) return -1;
+    function sum(scores: number[]): number {    
+      let sum = 0;
+      scores.forEach(num => {sum += num})
+      return sum;
+    }
+
+    if (sum(a['scores']) < sum(b['scores'])) return 1;
+    if (sum(a['scores']) > sum(b['scores'])) return -1;
     return 0;
+  }
+
+  sumScores(scores: number[]): number {    
+    let sum = 0;
+    scores.forEach(num => {sum += num})
+    return sum;
   }
 
   switchTable(user: boolean) {
@@ -104,8 +111,7 @@ export class AdminComponent {
   logout() {
     this.isLoading = true;
     this.authService.logout().subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (_) => {
         this.router.navigateByUrl('/login');
         this.isLoading = false;
       }, error: (err) => {
@@ -118,6 +124,7 @@ export class AdminComponent {
   deleteUser(id: string, n: number) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
+        title: 'FIGYELEM',
         message: 'Biztos vagy benne, hogy ki akarod törölni ezt a felhasználót?',
         choice: true,
         cancelChoice: 'Mégse',
@@ -129,12 +136,11 @@ export class AdminComponent {
       next: (data) => {
         if (data) {
           this.isLoading = true;
-          console.log(data);
           this.userService.delete(id).subscribe({
             next: (data) => {
               this.users?.splice(n, 1);
               this.users = [...this.users];
-              this.snackBar.open(`A ${(data as User).nickname} felhasználó sikeresen törölve lett.`, 'Rendben', { duration: 3000 });
+              this.snackBar.open(`A ${(data as any).nickname} felhasználó sikeresen törölve lett.`, 'Rendben', { duration: 3000 });
               this.isLoading = false;
             }, error: (err) => {
               console.log(err);
@@ -152,6 +158,7 @@ export class AdminComponent {
     this.isDialogOpen = true;
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
+        title: 'FIGYELEM',
         message: 'Biztos vagy benne, hogy ki akarod törölni ezt a kvízt?',
         choice: true,
         cancelChoice: 'Mégse',

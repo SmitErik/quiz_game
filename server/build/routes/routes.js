@@ -43,8 +43,8 @@ const configureRoutes = (passport, router) => {
             email: req.body.email,
             password: req.body.password,
             nickname: req.body.nickname,
-            score: JSON.parse(req.body.score),
-            finishedQuizzes: JSON.parse(req.body.finishedQuizzes)
+            scores: JSON.parse(req.body.scores),
+            playedQuizzes: JSON.parse(req.body.playedQuizzes)
         }).save().then(data => {
             res.status(200).send(data);
         }).catch(error => {
@@ -106,17 +106,9 @@ const configureRoutes = (passport, router) => {
             res.status(500).send('A felhasználó nincs bejelentkezve.');
         }
     });
-    router.get('/getAllUserNames', (req, res) => {
+    router.put('/updateUser', (req, res) => {
         if (req.isAuthenticated()) {
-            User_1.User.aggregate([{
-                    $project: {
-                        _id: 0,
-                        nickname: 1,
-                        score: 1,
-                        quizzesCount: { $size: '$finishedQuizzes' }
-                    }
-                }
-            ]).then(data => {
+            User_1.User.findByIdAndUpdate(req.query.id, { $set: { scores: JSON.parse(req.body.scores), playedQuizzes: JSON.parse(req.body.playedQuizzes) } }, { new: true }).then(data => {
                 res.status(200).send(data);
             }).catch(error => {
                 console.error(error);

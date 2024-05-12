@@ -11,8 +11,8 @@ const UserSchema = new mongoose_1.default.Schema({
     email: { type: String, required: true, unique: true },
     nickname: { type: String, required: true },
     password: { type: String, required: true },
-    score: { type: Number, required: false },
-    finishedQuizzes: { type: [String], required: false }
+    scores: { type: [Number], required: false },
+    playedQuizzes: { type: [String], required: false }
 });
 // hook
 UserSchema.pre('save', function (next) {

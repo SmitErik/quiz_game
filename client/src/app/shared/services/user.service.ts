@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/User';
 
@@ -17,11 +17,19 @@ export class UserService {
     return this.http.get<User>('http://localhost:5000/app/getUser?id=' + id, {withCredentials: true});
   }
 
-  delete(id: string) {
-    return this.http.delete('http://localhost:5000/app/deleteUser?id=' + id, {withCredentials: true});
+  update(id: string, user: User) {
+    const body = new URLSearchParams();
+    body.set('scores', JSON.stringify(user.scores));
+    body.set('playedQuizzes', JSON.stringify(user.playedQuizzes));
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http.put('http://localhost:5000/app/updateUser?id=' + id, body, {headers: headers, withCredentials: true});
   }
 
-  getAllNames() {
-    return this.http.get<[{nickname: string, score: number, quizzesCount: number}]>('http://localhost:5000/app/getAllUserNames', {withCredentials: true});
+  delete(id: string) {
+    return this.http.delete('http://localhost:5000/app/deleteUser?id=' + id, {withCredentials: true});
   }
 }
