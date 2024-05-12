@@ -14,6 +14,8 @@ A beüzemelés és az elindítás ugyanúgy működik, mint ahogyan gyakorlaton 
 	npm run build
 	npm run start
 
+# Fontos!
+
 Legelső indítás után, amikor már fut az adatbázis, akkor le kell futtatni a következő script-et a server-en belül az admin user és néhány kvíz létrehozásához:
 
 	npm run init
