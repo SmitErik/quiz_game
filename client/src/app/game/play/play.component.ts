@@ -76,10 +76,6 @@ export class PlayComponent {
         this.answers[n - 1] === this.quiz.answers4[this.currentQuestion] && this.quiz.correctAnswers[this.currentQuestion] === 4) {
       this.score += 100 / this.questionCount;      
     }
-
-    console.log(this.score);
-    
-
     if (this.currentQuestion + 1 < this.questionCount) {
       this.nextQuestion();
     } else {
@@ -129,6 +125,7 @@ export class PlayComponent {
               this.loadAnswers();
             }
             else {
+              localStorage.setItem('loggedInUser', JSON.stringify(user));
               location.reload();
             }
           }, error: (err) => {

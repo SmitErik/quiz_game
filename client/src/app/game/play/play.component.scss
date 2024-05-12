@@ -5,7 +5,8 @@
     position: absolute;
     bottom: 0;
     height: 60vh;
-    left: calc(5px + 0.5vw);
+    left: 50%;
+    transform: translateX(-50%);
     width: calc(100% - 10px - 1vw);
     max-width: 1200px;
 }

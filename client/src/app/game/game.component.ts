@@ -38,18 +38,12 @@ export class GameComponent {
 
   ngOnInit() {
     this.isLoading = true;
-
-    this.user = JSON.parse(localStorage.getItem('loggedInUser')!);
-    console.log(this.user);
-    
-    
+    this.user = JSON.parse(localStorage.getItem('loggedInUser')!);    
     this.quizService.getAllTitles().subscribe({
       next: (data) => {
         this.quizzes = data;
         this.userService.getAll().subscribe({
           next: (data) => {
-            console.log(data);
-            
             this.users = (data.filter(user => user.nickname !== 'admin')).sort(this.sortUserTable);
             this.isLoading = false;
           }, error: (err) => {
@@ -140,10 +134,7 @@ export class GameComponent {
 
   getScore(): number {
     const position = this.user.playedQuizzes.indexOf(this.quizzes[this.selectedQuiz].title);
-    console.log(position);
-    
     if (position !== -1) {
-      console.log(this.user.scores[position]);
       return this.user.scores[position];
     } else {
       return 0;

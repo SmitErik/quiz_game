@@ -30,4 +30,4 @@ Az admin felületen rengeteg **warning**-ot dob, hogy ütközés van két vagy t
 
 ### Megjegyzés \#3
 
-Esetenként, ha ultra-gyorsan kattint a felhasználó a bejelentkezésre, akkor valamiért nem menti el az app, hogy be lenne lépve a felhasználó, így nem tölti be az adatokat rendesen. Ezt a hibát csak 1x, vagy max 2x sikerült rekreálnom, így végül ezt se tudtam lekezelni rendesen.
+Esetenként, ha ultra-gyorsan kattint a felhasználó a bejelentkezésre, akkor valamiért nem menti el az app, hogy be lenne lépve a felhasználó, így nem tölti be az adatokat rendesen. Erre se tudtam rájönni, hogy mi miatt történhet. De egy gyors `f5` megoldja a problémát!

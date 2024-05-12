@@ -20,7 +20,7 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
                 } else {
                     req.login(user, (err: string | null) => {
                         if (err) {
-                            console.log(err);
+                            console.error(err);
                             res.status(500).send('Belső szerver hiba.');
                         } else {
                             res.status(200).send(user);
