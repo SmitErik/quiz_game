@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/User';
-import { server } from '../variables/ip_adresses';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,7 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post(`${server}/app/login`, body, {headers: headers, withCredentials: true});
+    return this.http.post('http://localhost:5000/app/login', body, {headers: headers, withCredentials: true});
   }
 
   register(user: User) {
@@ -37,14 +36,14 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post(`${server}/app/register`, body, {headers: headers});
+    return this.http.post('http://localhost:5000/app/register', body, {headers: headers});
   }
 
   logout() {
-    return this.http.post(`${server}/app/logout`, {}, {withCredentials: true, responseType: 'text'});
+    return this.http.post('http://localhost:5000/app/logout', {}, {withCredentials: true, responseType: 'text'});
   }
 
   checkAuth() {
-    return this.http.get<boolean>(`${server}/app/checkAuth`, {withCredentials: true});
+    return this.http.get<boolean>('http://localhost:5000/app/checkAuth', {withCredentials: true});
   }
 }

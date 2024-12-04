@@ -27,7 +27,7 @@ const configureRoutes = (passport, router) => {
                 else {
                     req.login(user, (err) => {
                         if (err) {
-                            console.error(err);
+                            console.log(err);
                             res.status(500).send('Belső szerver hiba.');
                         }
                         else {

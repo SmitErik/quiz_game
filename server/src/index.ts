@@ -7,11 +7,10 @@ import passport from 'passport';
 import { configurePassport } from './passport/passport';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import { client, database } from '../../client/src/app/shared/variables/ip_adresses';
 
 const app = express();
 const port = 5000;
-const dbUrl = `${database}/my_db`;
+const dbUrl = 'mongodb://localhost:6000/my_db';
 
 // mongodb connection
 mongoose.connect(dbUrl).then((_) => {
@@ -21,7 +20,7 @@ mongoose.connect(dbUrl).then((_) => {
     return;
 });
 
-const whitelist = ['*', client]
+const whitelist = ['*', 'http://localhost:4200']
 const corsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allowed?: boolean) => void) => {
         if (whitelist.indexOf(origin!) !== -1 || whitelist.includes('*')) {

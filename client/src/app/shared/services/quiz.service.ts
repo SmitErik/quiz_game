@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Quiz } from '../model/Quiz';
-import { server } from '../variables/ip_adresses';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +10,11 @@ export class QuizService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<Quiz[]>(`${server}/app/getAllQuizzes`, {withCredentials: true});
+    return this.http.get<Quiz[]>('http://localhost:5000/app/getAllQuizzes', {withCredentials: true});
   }
 
   get(id: string) {
-    return this.http.get<Quiz>(`${server}/app/getQuiz?id=` + id, {withCredentials: true});
+    return this.http.get<Quiz>('http://localhost:5000/app/getQuiz?id=' + id, {withCredentials: true});
   }
 
   update(id: string, quiz: Quiz) {
@@ -32,7 +31,7 @@ export class QuizService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.put(`${server}/app/updateQuiz?id=` + id, body, {headers: headers});
+    return this.http.put('http://localhost:5000/app/updateQuiz?id=' + id, body, {headers: headers});
   }
 
   create(quiz: Quiz) {
@@ -49,14 +48,14 @@ export class QuizService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post(`${server}/app/createQuiz`, body, {headers: headers});
+    return this.http.post('http://localhost:5000/app/createQuiz', body, {headers: headers});
   }
 
   delete(id: string) {
-    return this.http.delete(`${server}/app/deleteQuiz?id=` + id, {withCredentials: true});
+    return this.http.delete('http://localhost:5000/app/deleteQuiz?id=' + id, {withCredentials: true});
   }
 
   getAllTitles() {
-    return this.http.get<[{_id: string, title: string, questionCount: number}]>(`${server}/app/getAllQuizTitles`, {withCredentials: true});
+    return this.http.get<[{_id: string, title: string, questionCount: number}]>('http://localhost:5000/app/getAllQuizTitles', {withCredentials: true});
   }
 }
