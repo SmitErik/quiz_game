@@ -10,11 +10,11 @@ export class QuizService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<Quiz[]>('http://localhost:5000/app/getAllQuizzes', {withCredentials: true});
+    return this.http.get<Quiz[]>('http://172.100.0.20/app/getAllQuizzes', {withCredentials: true});
   }
 
   get(id: string) {
-    return this.http.get<Quiz>('http://localhost:5000/app/getQuiz?id=' + id, {withCredentials: true});
+    return this.http.get<Quiz>('http://172.100.0.20/app/getQuiz?id=' + id, {withCredentials: true});
   }
 
   update(id: string, quiz: Quiz) {
@@ -31,7 +31,7 @@ export class QuizService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.put('http://localhost:5000/app/updateQuiz?id=' + id, body, {headers: headers});
+    return this.http.put('http://172.100.0.20/app/updateQuiz?id=' + id, body, {headers: headers});
   }
 
   create(quiz: Quiz) {
@@ -48,14 +48,14 @@ export class QuizService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post('http://localhost:5000/app/createQuiz', body, {headers: headers});
+    return this.http.post('http://172.100.0.20/app/createQuiz', body, {headers: headers});
   }
 
   delete(id: string) {
-    return this.http.delete('http://localhost:5000/app/deleteQuiz?id=' + id, {withCredentials: true});
+    return this.http.delete('http://172.100.0.20/app/deleteQuiz?id=' + id, {withCredentials: true});
   }
 
   getAllTitles() {
-    return this.http.get<[{_id: string, title: string, questionCount: number}]>('http://localhost:5000/app/getAllQuizTitles', {withCredentials: true});
+    return this.http.get<[{_id: string, title: string, questionCount: number}]>('http://172.100.0.20/app/getAllQuizTitles', {withCredentials: true});
   }
 }
