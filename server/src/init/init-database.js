@@ -4,7 +4,7 @@ const fs = require('fs');
 let database;
 
 async function initDatabase() {
-  const client = new MongoClient('mongodb://172.100.0.20:27017');
+  const client = new MongoClient('mongodb://172.100.0.30:27017');
 
   try {
     await client.connect();
@@ -85,7 +85,7 @@ async function initQuizzes() {
 }
 
 /*async function initDatabase() {
-  const client = new MongoClient('mongodb://172.100.0.20:27017');
+  const client = new MongoClient('mongodb://172.100.0.30:27017');
 
   try {
     await client.connect();
