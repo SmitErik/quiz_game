@@ -20,7 +20,7 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post('http://172.100.0.20/app/login', body, {headers: headers, withCredentials: true});
+    return this.http.post('http://172.100.0.20:5000/app/login', body, {headers: headers, withCredentials: true});
   }
 
   register(user: User) {
@@ -36,14 +36,14 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post('http://172.100.0.20/app/register', body, {headers: headers});
+    return this.http.post('http://172.100.0.20:5000/app/register', body, {headers: headers});
   }
 
   logout() {
-    return this.http.post('http://172.100.0.20/app/logout', {}, {withCredentials: true, responseType: 'text'});
+    return this.http.post('http://172.100.0.20:5000/app/logout', {}, {withCredentials: true, responseType: 'text'});
   }
 
   checkAuth() {
-    return this.http.get<boolean>('http://172.100.0.20/app/checkAuth', {withCredentials: true});
+    return this.http.get<boolean>('http://172.100.0.20:5000/app/checkAuth', {withCredentials: true});
   }
 }
