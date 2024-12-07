@@ -10,7 +10,7 @@ import cors from 'cors';
 
 const app = express();
 const port = 5000;
-const dbUrl = 'mongodb://172.100.0.10:27017/my_db';
+const dbUrl = 'mongodb://localhost:6000/my_db';
 
 // mongodb connection
 mongoose.connect(dbUrl).then((_) => {
@@ -20,7 +20,7 @@ mongoose.connect(dbUrl).then((_) => {
     return;
 });
 
-const whitelist = ['*', 'http://172.100.0.30:4200']
+const whitelist = ['*', 'http://localhost:4200']
 const corsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allowed?: boolean) => void) => {
         if (whitelist.indexOf(origin!) !== -1 || whitelist.includes('*')) {
